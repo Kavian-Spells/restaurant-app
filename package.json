@@ -1,0 +1,27 @@
+{
+  "name": "restaurant-app",
+  "version": "1.0.0",
+  "description": "Dynamic web site for anyone on the internet to write reviews for any restaurant in the world.  <br><br>Built using the following technology:   <ul>   <li>Express</li>    <li>body-parser</li>    <li>PostgreSQL</li>    <li>Promises</li> </ul>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kavian-Spells/restaurant-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kavian-Spells/restaurant-app/issues"
+  },
+  "homepage": "https://github.com/Kavian-Spells/restaurant-app#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-es6-template-engine": "^2.2.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7"
+  }
+}
