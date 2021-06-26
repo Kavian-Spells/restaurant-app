@@ -3,6 +3,9 @@ var http = require('http');
 var morgan = require('morgan');
 var es6Renderer = require('express-es6-template-engine');
 var body_parser = require('body-parser');
+var pgp = require('pg-promise')();
+var dbsettings = pgp(process.env.DATABASE_URL || {database: 'restaurant'});
+var db = pgp(dbsettings);
 
 var app = express();
 var server = http.createServer(app);
@@ -24,6 +27,7 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
-server.listen(3000, () => {
-    console.log('listening on *:3000');
+var PORT = process.env.PORT || 8000;
+server.listen(PORT, () => {
+    console.log('listening on port ', PORT);
 });
