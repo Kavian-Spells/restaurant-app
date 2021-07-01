@@ -20,8 +20,6 @@ var db = pgp({
 var app = express();
 var server = http.createServer(app);
 
-var router = express.Router() //YT
-
 // var { Server } = require("socket.io");
 // const exp = require('constants');
 // var io = new Server(server);
