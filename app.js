@@ -29,43 +29,53 @@ app.get('/', (req, res) => {
 });
 
 // search results
-app.get('/search', (req, res) => { //YT
+app.get('/search', async (req, res) => { //YT
     var searchTerm = req.query.searchTerm || 'Default';
     
-    db.any(`SELECT * FROM restaurant WHERE name ILIKE '%${searchTerm}%'`)
-    .then(data => {
-        console.log(data);
-        res.json(data) //How to use map statement and render html file
-    })
+    var restaurants = await db.any(`SELECT * FROM restaurant WHERE name ILIKE '%${searchTerm}%'`)
+    .then(data => {  return data  })
     .catch(error => {
         console.log(error)
     })
+    console.log("dbdata", restaurants);
+    res.render('search_results', {
+        locals: {
+            restaurants: restaurants 
+        },
+        partials: {
+            footer: "./partials/footer"
+        }
+    });
 });
 
 // restaurant pages
-app.get('/restaurant/:id', (req, res) => {
-    res.sendfile('./templates/restaurant.html'); //res.render not working
+app.get('/restaurant/:id', async (req, res) => {
+
     
     // pull restaurant id from database
-    // var {id} = req.params;
-    // var restaurant = db.one("SELECT * FROM restaurant WHERE id =1")
-    //     .then(restaurant => {
-    //     })  
-    //     .catch(error => {
-    //         console.log(error)
-    //     })
-    // if (restaurant) {
-    //     // let htmlData = ``;
-    //     // htmlData += `<h1>${restaurant.name}</h1>`;
-    //     // htmlData += `<h1>${restaurant.id}</h1>`;
-    //     // htmlData += `<h1>${restaurant.address}</h1>`;
-    //     // htmlData += `<h1>${restaurant.category}</h1>`;
-    //     // res.send(htmlData);
-    //     res.render('restaurant');
-    // } else {
-    //     res.status(404)
-    //         .send(`no restaurant with id ${id}`)
-    // }
+
+    var {id} = req.params;
+    console.log("req.params id", id)
+
+    var restaurant = await db.one(`SELECT * FROM restaurant WHERE id = ${id}`)
+        .then(data => {return data})  
+        .catch(error => {
+            console.log(error)
+        })
+        console.log("one restaurant", restaurant)
+    if (restaurant) {
+        res.render('restaurant', {
+            locals: {
+                oneRestaurant: restaurant 
+            },
+            partials: {
+                footer: "./partials/footer"
+            }
+        });
+    } else {
+        res.status(404)
+            .send(`no restaurant with id ${id}`)
+    }
 });
 
 // launch ======================================================================

@@ -10,8 +10,11 @@
     <h1>Here are your search results</h1>
 
     <ul>
-        ${restuarants.map((qs, i) => 
-        `<li><a href="/:search">restuarants</a></li>`).join('')}
+        ${restaurants.map((restaurant) => 
+        `<li>
+            <a href="/restaurant/${restaurant.id}">${restaurant.name}</a>
+        </li>`).join('')}
     </ul>
+${footer}
 </body>
 </html>
