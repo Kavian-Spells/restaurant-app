@@ -10,7 +10,6 @@ var db = pgp({
     database: 'restaurant',
     user: 'postgres',
     password: 'PhirstofA11',
-    max: 30 // use up to 30 connections
 });
 // var dbsettings = pgp(process.env.DATABASE_URL;
 //     if (!dbsettings) {
@@ -43,10 +42,22 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-router.get('/search', (req, res) => { //YT
-    db.query('SELECT * FROM restaurant');
+app.get('/search', (req, res) => { //YT
+    var searchTerm = req.query.searchTerm || 'Default';
+    
+    db.any(`SELECT * FROM restaurant WHERE name ILIKE '%${searchTerm}%'`)
+    .then(data => {
+        console.log(data);
+        res.json(data)
+    })
+    .catch(error => {
+        console.log(error)
+    })
 });
 
+app.get('/restaurant/:id', (req, res) => {
+    res.render('index');
+});
 
 // app.get('/', async (req, res) => {
 //     var restaurants = await db.query('SELECT * FROM restaurant');
