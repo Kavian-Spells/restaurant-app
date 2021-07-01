@@ -4,7 +4,9 @@
   "description": "Dynamic web site for anyone on the internet to write reviews for any restaurant in the world.  <br><br>Built using the following technology:   <ul>   <li>Express</li>    <li>body-parser</li>    <li>PostgreSQL</li>    <li>Promises</li> </ul>",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
