@@ -25,7 +25,14 @@ app.use(express.json()); //YT
 // routes ======================================================================
 // home
 app.get('/', (req, res) => {
-    res.render('index');
+   res.render('index', {
+        locals: {
+            title: 'Restaurant Reviewer App',
+        },
+        partials: {
+            header: './partials/header'
+        }
+    })
 });
 
 // search results
@@ -33,49 +40,57 @@ app.get('/search', async (req, res) => { //YT
     var searchTerm = req.query.searchTerm || 'Default';
     
     var restaurants = await db.any(`SELECT * FROM restaurant WHERE name ILIKE '%${searchTerm}%'`)
-    .then(data => {  return data  })
-    .catch(error => {
-        console.log(error)
-    })
-    console.log("dbdata", restaurants);
-    res.render('search_results', {
-        locals: {
-            restaurants: restaurants 
-        },
-        partials: {
-            footer: "./partials/footer"
+        .then(data => {return data})
+        .catch(error => {console.log(error)})
+        console.log("dbdata", restaurants);
+        if (restaurants) {
+            res.render('search_results', {
+                locals: {
+                    title: 'Search Results',
+                    restaurants: restaurants 
+                },
+                partials: {
+                    header: './partials/header',
+                    footer: "./partials/footer"
+                }
+            });
+        } else {
+            res.status(404) //Returning empty array, no error message showing
+                .send(`no restaurants returned in your search`)
         }
     });
-});
 
 // restaurant pages
 app.get('/restaurant/:id', async (req, res) => {
-
-    
     // pull restaurant id from database
-
     var {id} = req.params;
     console.log("req.params id", id)
 
     var restaurant = await db.one(`SELECT * FROM restaurant WHERE id = ${id}`)
-        .then(data => {return data})  
-        .catch(error => {
-            console.log(error)
-        })
+    var review = await db.any(`SELECT * FROM review WHERE restaurant_id = ${id}`)
+    var reviewer = await db.one(`SELECT * FROM reviewer WHERE id IN 
+        (SELECT reviewer_id FROM review WHERE restaurant_id = ${id})`)
+    .then(data => {return data})  
+        .catch(error => {console.log(error)})
         console.log("one restaurant", restaurant)
-    if (restaurant) {
-        res.render('restaurant', {
-            locals: {
-                oneRestaurant: restaurant 
-            },
-            partials: {
-                footer: "./partials/footer"
-            }
-        });
-    } else {
-        res.status(404)
-            .send(`no restaurant with id ${id}`)
-    }
+        console.log("reviewer", reviewer)
+        if (restaurant) {
+            res.render('restaurant', {
+                locals: {
+                    oneRestaurant: restaurant,
+                    title: `Restaurant info`, //can't get `${oneRestaurant.name}'s info` to work. Something about how db is mapped
+                    review: review,
+                    reviewer: reviewer
+                },
+                partials: {
+                    header: './partials/header',
+                    footer: "./partials/footer"
+                }
+            });
+        } else {
+            res.status(404)
+                .send(`no restaurant with id ${id}`)
+        }
 });
 
 // launch ======================================================================
