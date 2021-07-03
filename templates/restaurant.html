@@ -17,7 +17,49 @@
     ${review.map((review) => 
         `<strong>Title: </strong>${review.title}<br>
         <strong>Grade: </strong>${review.review}<br>
-        <strong>Stars: </strong>${review.stars}<br>
+        <!-- Can I make this into actual stars? -->
+        <strong>Stars: </strong>${review.stars}<br> 
         `).join('')}
+    <hr>
+
+    <!-- Write a Review Feature:
+    Post request to server?
+    How do i write their info to the database?  -->
+    <form>
+        <fieldset>
+          <legend>Write a Review:</legend>
+          <p>
+            <label for="reviewer-name">Name: </label>
+            <input type="text" name="reviewer-name" id="reviewer-name"/>
+          </p>
+          <p>
+            <label for="reviewer-email">Email: </label>
+            <input type="email" name="reviewer-email" id="reviewer-email"/>
+          </p>
+          <!-- We need a range for the stars. Maybe change to actual stars later -->
+          <p>
+            <label for="review-rating">Rating: </label>
+            <input type="range" name="review-rating" id="review-rating" list="tickmarks" min="1" max="5" step="1"/>
+            <datalist id="tickmarks">
+                <option value="1" label="1 star"></option>
+                <option value="2" label="2 stars"></option>
+                <option value="3" label="3 stars"></option>
+                <option value="4" label="4 stars"></option>
+                <option value="5" label="5 stars"></option>
+            </datalist>
+          </p>
+          <p>
+            <label for="review-title">Title of Review: </label>
+            <input type="text" name="review-title" id="review-title"/>
+          </p>
+          <!-- We need a text area for the user to write their review -->
+          <p>
+            <label for="review"></label>
+            <textarea name="review" id="review" rows="4" cols="33" placeholder="">Write your review here... 
+            </textarea>
+          </p>
+        </fieldset>
+        <input type="submit" id="submit-button" value="submit" />
+      </form>
 </body>
 </html>

@@ -2,8 +2,6 @@
 //Get all the tools you need
 var express     = require('express');
 var http        = require('http');
-var es6Renderer = require('express-es6-template-engine');
-var morgan      = require('morgan');
 var body_parser = require('body-parser');
 var db          = require('./db/db');
 
@@ -11,16 +9,20 @@ var app     = express();
 var server  = http.createServer(app);
 
 // configuration ===============================================================
-//setup templates
+//setup express templating
+var es6Renderer = require('express-es6-template-engine');
 app.engine('html', es6Renderer);
 app.set('views', 'templates');
 app.set('view engine', 'html');
 
-//setup express application
+//setup express middleware-----------
 app.use(body_parser.urlencoded());
+app.use(express.json());
+
+var morgan      = require('morgan'); //morgan - logging middleware
 app.use(morgan('dev'));
-app.use('/public', express.static('public'));
-app.use(express.json()); //YT
+
+app.use(express.static('public')); //serve static files (css, js, etc.) outside of node and express
 
 // routes ======================================================================
 // home
@@ -36,13 +38,13 @@ app.get('/', (req, res) => {
 });
 
 // search results
-app.get('/search', async (req, res) => { //YT
+app.get('/search', async (req, res) => {
     var searchTerm = req.query.searchTerm || 'Default';
     
     var restaurants = await db.any(`SELECT * FROM restaurant WHERE name ILIKE '%${searchTerm}%'`)
         .then(data => {return data})
         .catch(error => {console.log(error)})
-        console.log("dbdata", restaurants);
+        // console.log("dbdata", restaurants);
         if (restaurants) {
             res.render('search_results', {
                 locals: {
@@ -64,7 +66,7 @@ app.get('/search', async (req, res) => { //YT
 app.get('/restaurant/:id', async (req, res) => {
     // pull restaurant id from database
     var {id} = req.params;
-    console.log("req.params id", id)
+    // console.log("req.params id", id)
 
     var restaurant = await db.one(`SELECT * FROM restaurant WHERE id = ${id}`)
     var review = await db.any(`SELECT * FROM review WHERE restaurant_id = ${id}`)
@@ -72,8 +74,8 @@ app.get('/restaurant/:id', async (req, res) => {
         (SELECT reviewer_id FROM review WHERE restaurant_id = ${id})`)
     .then(data => {return data})  
         .catch(error => {console.log(error)})
-        console.log("one restaurant", restaurant)
-        console.log("reviewer", reviewer)
+        // console.log("one restaurant", restaurant)
+        // console.log("reviewer", reviewer)
         if (restaurant) {
             res.render('restaurant', {
                 locals: {
@@ -93,8 +95,11 @@ app.get('/restaurant/:id', async (req, res) => {
         }
 });
 
+// Write a Review feature:
+// Post Request? 
+
 // launch ======================================================================
 var PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running at http://127.0.0.1:${PORT}`);
 });
