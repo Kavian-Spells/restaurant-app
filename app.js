@@ -73,41 +73,48 @@ app.get('/restaurant/:id', async (req, res) => {
     var reviewer = await db.one(`SELECT * FROM reviewer WHERE id IN 
         (SELECT reviewer_id FROM review WHERE restaurant_id = ${id})`)
     .then(data => {return data})  
-        .catch(error => {console.log(error)})
-        // console.log("one restaurant", restaurant)
-        // console.log("reviewer", reviewer)
-        if (restaurant) {
-            res.render('restaurant', {
-                locals: {
-                    oneRestaurant: restaurant,
-                    title: `Restaurant info`, //can't get `${oneRestaurant.name}'s info` to work. Something about how db is mapped
-                    review: review,
-                    reviewer: reviewer
-                },
-                partials: {
-                    header: './partials/header',
-                    footer: "./partials/footer"
-                }
-            });
-        } else {
-            res.status(404)
-                .send(`no restaurant with id ${id}`)
-        }
+    .catch(error => {console.log(error)})
+    // console.log("one restaurant", restaurant)
+    // console.log("reviewer", reviewer)
+    if (restaurant) {
+        res.render('restaurant', {
+            locals: {
+                oneRestaurant: restaurant,
+                title: `Restaurant info`, //can't get `${oneRestaurant.name}'s info` to work. Something about how db is mapped
+                review: review,
+                reviewer: reviewer
+            },
+            partials: {
+                header: './partials/header',
+                footer: "./partials/footer"
+            }
+        });
+    } else {
+        res.status(404)
+            .send(`no restaurant with id ${id}`)
+    }
 });
 
 // Write a Review feature:
-app.post('/submit', function (req, res) {
+app.post('/submit', async function (req, res) {
     // console.log('review form', req.body);
 
     res.write('Review Successfully recorded! \n');
-    res.write('You sent the Name:   "' + req.body.reviewerName+'".\n');
-    res.write('You sent the Email:  "' + req.body.reviewerEmail+'".\n');
-    res.write('You sent the Rating: "' + req.body.rating+'".\n');
-    res.write('You sent the Title:  "' + req.body.reviewTitle+'".\n');
-    res.write('You sent the Review: "' + req.body.review+'".\n');
+    res.write(`You sent the Name:   "${req.body.reviewerName}"\n`);
+    res.write(`You sent the Email:  "${req.body.reviewerEmail}"\n`);
+    res.write(`You sent the Rating: "${req.body.rating}"\n`);
+    res.write(`You sent the Title:  "${req.body.reviewTitle}"\n`);
+    res.write(`You sent the Review: "${req.body.review}"`);
     res.end()   
 
-    //Write req.body to database
+    //Write form data (req.body) to database
+    var user_input = await db.query(`INSERT INTO reviewer VALUES (NULL, ${req.body.reviewerName}, ${req.body.reviewerEmail}, NULL`)
+    console.log(user_input)
+    //we need the reviewer_id from the previous insert ^
+    // await db.result(`INSERT INTO review VALUES (NULL, ${req.body.reviewTitle}, ${req.body.reviewerEmail}, NULL`)
+    .then(data => {return data})  
+    .catch(error => {console.log(error)})
+    
 });
 
 // User Login Feature - Middleware Lecture 6/12 ~45min
