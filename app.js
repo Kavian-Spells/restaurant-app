@@ -1,12 +1,11 @@
 // set up ======================================================================
-//Get all the tools you need
-var express     = require('express');
-var http        = require('http');
-var body_parser = require('body-parser');
-var db          = require('./db/db');
+//Create the server
+var express = require('express');
+var app = express();
+var http = require('http');
+var server = http.createServer(app);
 
-var app     = express();
-var server  = http.createServer(app);
+var db = require('./db/db'); //database connection
 
 // configuration ===============================================================
 //setup express templating
@@ -16,13 +15,14 @@ app.set('views', 'templates');
 app.set('view engine', 'html');
 
 //setup express middleware-----------
-app.use(body_parser.urlencoded());
-app.use(express.json());
-
-var morgan      = require('morgan'); //morgan - logging middleware
+var morgan      = require('morgan'); //morgan - logging req.method (get, post, etc.) and req.path (/, /home, /search)
 app.use(morgan('dev'));
 
+var body_parser = require('body-parser'); //body-parser => request.body
+app.use(body_parser.urlencoded());
+
 app.use(express.static('public')); //serve static files (css, js, etc.) outside of node and express
+app.use(express.json()); //??? => Came from youtube
 
 // routes ======================================================================
 // home
@@ -97,6 +97,40 @@ app.get('/restaurant/:id', async (req, res) => {
 
 // Write a Review feature:
 // Post Request? 
+
+// User Login Feature - Middleware Lecture 6/12 ~45min
+// THERE ARE MODULES THAT WILL DO USER LOGINS FOR YOU. ASK DURING CLASS
+
+// app.use(function (request, response, next) {
+//   if (request.session.user) {
+//     next();
+//   } else if (request.path == '/login') {
+//     next();
+//   } else {
+//     response.redirect('/login');
+//   }
+// });
+
+// app.get("/", function (request, response) {
+//   response.send(`Hello ${request.session.user}`);
+// });
+
+// app.get('/login', function (request, response) {
+//   response.sendFile(__dirname + '/login.html');
+// });
+
+// app.post('/login', function (request, response) {
+//   var username = request.body.username;
+//   var password = request.body.password;
+//   console.log(username, password);
+
+//   if (username == 'aaron' && password == 'narf') {
+//     request.session.user = username;
+//     response.redirect('/');
+//   } else {
+//     response.sendFile(__dirname + '/login.html');
+//   }
+// });
 
 // launch ======================================================================
 var PORT = process.env.PORT || 8000;

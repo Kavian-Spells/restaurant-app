@@ -9,3 +9,5 @@ var db = pgp({
 });
 
 module.exports = db;
+//If you wanted to export multiple functions:
+//exports.function = function
