@@ -25,21 +25,21 @@
     <!-- Write a Review Feature:
     Post request to server?
     How do i write their info to the database?  -->
-    <form>
+    <form action="/submit" method="POST">
         <fieldset>
           <legend>Write a Review:</legend>
           <p>
-            <label for="reviewer-name">Name: </label>
-            <input type="text" name="reviewer-name" id="reviewer-name"/>
+            <label for="reviewerName">Name: </label>
+            <input type="text" name="reviewerName" id="reviewerName"/>
           </p>
           <p>
-            <label for="reviewer-email">Email: </label>
-            <input type="email" name="reviewer-email" id="reviewer-email"/>
+            <label for="reviewerEmail">Email: </label>
+            <input type="email" name="reviewerEmail" id="reviewerEmail"/>
           </p>
           <!-- We need a range for the stars. Maybe change to actual stars later -->
           <p>
-            <label for="review-rating">Rating: </label>
-            <input type="range" name="review-rating" id="review-rating" list="tickmarks" min="1" max="5" step="1"/>
+            <label for="rating">Rating: </label>
+            <input type="range" name="rating" id="rating" list="tickmarks" min="1" max="5" step="1"/>
             <datalist id="tickmarks">
                 <option value="1" label="1 star"></option>
                 <option value="2" label="2 stars"></option>
@@ -49,8 +49,8 @@
             </datalist>
           </p>
           <p>
-            <label for="review-title">Title of Review: </label>
-            <input type="text" name="review-title" id="review-title"/>
+            <label for="reviewTitle">Title of Review: </label>
+            <input type="text" name="reviewTitle" id="reviewTitle"/>
           </p>
           <!-- We need a text area for the user to write their review -->
           <p>
@@ -59,7 +59,7 @@
             </textarea>
           </p>
         </fieldset>
-        <input type="submit" id="submit-button" value="submit" />
+        <input type="submit" id="submit" value="submit"/>
       </form>
 </body>
 </html>

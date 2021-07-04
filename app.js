@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 // search results
 app.get('/search', async (req, res) => {
     var searchTerm = req.query.searchTerm || 'Default';
-    
+
     var restaurants = await db.any(`SELECT * FROM restaurant WHERE name ILIKE '%${searchTerm}%'`)
         .then(data => {return data})
         .catch(error => {console.log(error)})
@@ -96,7 +96,19 @@ app.get('/restaurant/:id', async (req, res) => {
 });
 
 // Write a Review feature:
-// Post Request? 
+app.post('/submit', function (req, res) {
+    // console.log('review form', req.body);
+
+    res.write('Review Successfully recorded! \n');
+    res.write('You sent the Name:   "' + req.body.reviewerName+'".\n');
+    res.write('You sent the Email:  "' + req.body.reviewerEmail+'".\n');
+    res.write('You sent the Rating: "' + req.body.rating+'".\n');
+    res.write('You sent the Title:  "' + req.body.reviewTitle+'".\n');
+    res.write('You sent the Review: "' + req.body.review+'".\n');
+    res.end()   
+
+    //Write req.body to database
+});
 
 // User Login Feature - Middleware Lecture 6/12 ~45min
 // THERE ARE MODULES THAT WILL DO USER LOGINS FOR YOU. ASK DURING CLASS
