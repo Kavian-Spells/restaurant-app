@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    ${header}
+    <!-- We need a <title> in app.js -->
+</head>
+<body>
+    <!-- Form to enter the: name, addresss, category -->
+    <form action="/restaurant/new" method="GET">
+        <fieldset>
+            <legend>Add a new restaurant:</legend>
+            <label for="newName">Name of Restaurant:
+                <input type="text">
+            </label><br><br>
+            <label for="newAddress">Restaurant Address:
+                <input type="text">
+            </label><br><br>
+            <label for="newCategory">Type of Restaurant:
+                <!-- Going to be able to select from a dropdown list -->
+                <select name="newCategory" id="newCategory">
+                    <option value="" disabled selected>--Please choose an option--</option>
+                    <option value="fineDining">Fine Dining</option>
+                    <option value="casualDining">Casual Dining</option>
+                    <option value="familyStyle">Family Style</option>
+                    <option value="fastFood">Fast Food</option>
+                    <option value="cafe">Cafe</option>
+                    <option value="foodTruck">Food Truck/Pop-up</option>
+                    <option value="deliveryOnly">Delivery Only</option>
+                    <option value="chickenWings">Chicken Wings</option>
+                    <option value="brunch">Brunch</option>
+                </select>
+            </label><br><br>
+            <button type="submit">Submit</button>
+        </fieldset>
+    </form>
+</body>
+</html>
