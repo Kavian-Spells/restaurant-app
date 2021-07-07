@@ -96,11 +96,8 @@ app.get('/restaurant/:id', async (req, res) => {
 });
 
 // Write a Review feature:
-app.post('/restaurant/:id/submit_review', async function (req, res) { 
-    var {id} = req.params.id; //how to change id in route parameter?
-    console.log("req.params id", id)
-   
-    // console.log('review form', req.body);
+app.post('/restaurant/submit_review', async function (req, res, next) { 
+    console.log('review form', req.body);
 
     res.write('Review Successfully recorded! \n');
     res.write(`You sent the Name:   "${req.body.reviewerName}"\n`);
@@ -111,24 +108,30 @@ app.post('/restaurant/:id/submit_review', async function (req, res) {
     res.end()   
 
     //Write form data (req.body) to database
-    // var user_input = await db.result(`INSERT INTO reviewer VALUES (default, '${req.body.reviewerName}', '${req.body.reviewerEmail}', NULL)`)
-    // console.log('user input', user_input)
-    //we need the reviewer_id from the previous insert ^
-    // await db.result(`INSERT INTO review VALUES (NULL, ${req.body.reviewTitle}, ${req.body.reviewerEmail}, NULL`)
-    // .then(data => {return data})  
-    // .catch(error => {console.log(error)})    
+    try {
+        var user_input = await db.result(`INSERT INTO reviewer VALUES (default, '${req.body.reviewerName}', '${req.body.reviewerEmail}', NULL)`)
+        res.send(user_input)
+        // we need the reviewer_id from the previous insert ^
+        // await db.result(`INSERT INTO review VALUES (NULL, ${req.body.reviewTitle}, ${req.body.reviewerEmail}, NULL`)
+    } catch (error) {
+        res.send(error)
+    }
 });
 
 //Add a restaurant feature:
-app.get('/restaurant/new', (req, res) => {
-    res.render('new_restaurant', {
-        locals: {
-            title: 'Add a new Restaurant',
-        },
-        partials: {
-            header: './partials/header'
-        }
-    })
+app.get('/new_restaurant', (req, res) => {
+    try {      
+        res.render('new_restaurant', {
+            locals: {
+                title: 'Add a new Restaurant',
+            },
+            partials: {
+                header: './partials/header'
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 ///restaurant/submit_new will be a post request where the db record is saved
