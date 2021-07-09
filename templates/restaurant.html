@@ -28,6 +28,7 @@
     <form action="/restaurant/submit_review" method="POST">
         <fieldset>
           <legend>Write a Review:</legend>
+          <input type="hidden" name="restaurant_id" value="${oneRestaurant.id}">
           <p>
             <label for="reviewerName">Name: </label>
             <input type="text" name="reviewerName" id="reviewerName"/>
