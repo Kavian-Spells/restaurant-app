@@ -118,6 +118,9 @@ app.post('/restaurant/submit_review', async function (req, res, next) {
     }
 });
 
+// redirect back to restaurant page and show new review
+
+
 //Add a restaurant feature:
 ///restaurant/submit_new will be a post request where the db record is saved
     //The user will be redirected to the restaurant page that was just created
