@@ -96,11 +96,8 @@ app.get('/restaurant/:id', async (req, res) => {
 });
 
 // Write a Review feature:
-app.post('/restaurant/:id/submit_review', async function (req, res) { 
-    var {id} = req.params.id; //how to change id in route parameter?
-    console.log("req.params id", id)
-   
-    // console.log('review form', req.body);
+app.post('/restaurant/submit_review', async function (req, res, next) { 
+    console.log('review form', req.body);
 
     res.write('Review Successfully recorded! \n');
     res.write(`You sent the Name:   "${req.body.reviewerName}"\n`);
@@ -111,28 +108,37 @@ app.post('/restaurant/:id/submit_review', async function (req, res) {
     res.end()   
 
     //Write form data (req.body) to database
-    // var user_input = await db.result(`INSERT INTO reviewer VALUES (default, '${req.body.reviewerName}', '${req.body.reviewerEmail}', NULL)`)
-    // console.log('user input', user_input)
-    //we need the reviewer_id from the previous insert ^
-    // await db.result(`INSERT INTO review VALUES (NULL, ${req.body.reviewTitle}, ${req.body.reviewerEmail}, NULL`)
-    // .then(data => {return data})  
-    // .catch(error => {console.log(error)})    
+    try {
+        var user_data = await db.result(`INSERT INTO reviewer VALUES (default, '${req.body.reviewerName}', '${req.body.reviewerEmail}', NULL) RETURNING id`)
+        var new_userId = user_data.rows[0].id; // reviewer_id from the previous insert ^
+        console.log('new_userId', new_userId);
+        var user_review = await db.result(`INSERT INTO review VALUES (default, '${req.body.reviewTitle}', '${req.body.review}', '${parseInt(req.body.rating)}', '${parseInt(new_userId)}', '${parseInt(req.body.restaurant_id)}')`)
+    } catch (error) {
+        res.send(error)
+    }
 });
 
-//Add a restaurant feature:
-app.get('/restaurant/new', (req, res) => {
-    res.render('new_restaurant', {
-        locals: {
-            title: 'Add a new Restaurant',
-        },
-        partials: {
-            header: './partials/header'
-        }
-    })
-})
+// redirect back to restaurant page and show new review
 
+
+//Add a restaurant feature:
 ///restaurant/submit_new will be a post request where the db record is saved
     //The user will be redirected to the restaurant page that was just created
+app.get('/new_restaurant', (req, res) => {
+    try {      
+        res.render('new_restaurant', {
+            locals: {
+                title: 'Add a new Restaurant',
+            },
+            partials: {
+                header: './partials/header'
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 
 // User Login Feature - Middleware Lecture 6/12 ~45min
 // THERE ARE MODULES THAT WILL DO USER LOGINS FOR YOU. ASK DURING CLASS
