@@ -69,20 +69,25 @@ app.get('/restaurant/:id', async (req, res) => {
     // console.log("req.params id", id)
 
     var restaurant = await db.one(`SELECT * FROM restaurant WHERE id = ${id}`)
-    var review = await db.any(`SELECT * FROM review WHERE restaurant_id = ${id}`)
-    var reviewer = await db.one(`SELECT * FROM reviewer WHERE id IN 
-        (SELECT reviewer_id FROM review WHERE restaurant_id = ${id})`)
+    var review = await db.many(`SELECT *
+    FROM reviewer
+    FULL OUTER JOIN review
+    ON review.reviewer_id = reviewer.id
+    WHERE restaurant_id = ${id};`)
+    // var reviewer = await db.many(`SELECT * FROM reviewer WHERE id IN 
+    //     (SELECT reviewer_id FROM review WHERE restaurant_id = ${id})`)
     .then(data => {return data})  
     .catch(error => {console.log(error)})
     // console.log("one restaurant", restaurant)
     // console.log("reviewer", reviewer)
+    console.log('review', review)
     if (restaurant) {
         res.render('restaurant', {
             locals: {
                 oneRestaurant: restaurant,
                 title: `Restaurant info`, //can't get `${oneRestaurant.name}'s info` to work. Something about how db is mapped
+                // reviewer: reviewer,
                 review: review,
-                reviewer: reviewer
             },
             partials: {
                 header: './partials/header',
@@ -119,7 +124,6 @@ app.post('/restaurant/submit_review', async function (req, res, next) {
 });
 
 // redirect back to restaurant page and show new review
-
 
 //Add a restaurant feature:
 ///restaurant/submit_new will be a post request where the db record is saved
