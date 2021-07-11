@@ -12,14 +12,14 @@
     <p><strong>Food Category: </strong>${oneRestaurant.category}</p>
     <br>
     
-    <h4><u>Review: </u></h4>
+    <h4><u>Reviews: </u></h4>
     ${review.map((review) => 
       `<strong>Name: </strong> ${review.name}<br>
       <strong>Title: </strong>${review.title}<br>
           <strong>Grade: </strong>${review.review}<br>
-          <!-- Can I make this into actual stars? -->
           <strong>Stars: </strong>${review.stars}<br> 
           `).join('<br>')}
+          <!-- Can I make this into actual stars? -->
     <hr>
 
     <!-- Write a Review Feature:
@@ -62,5 +62,14 @@
         </fieldset>
         <input type="submit" id="submit" value="submit"/>
       </form>
+
+      <!-- Add a link that goes back to the homepage IN THE FOOTER -->
 </body>
+<script>
+  $(document).ready(function(){ 
+    $(form).on('submit', function(){ 
+      location.reload();
+    });
+  })
+</script>
 </html>
