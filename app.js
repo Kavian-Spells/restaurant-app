@@ -95,7 +95,7 @@ app.get('/restaurant/:id', async (req, res) => {
         });
     } else {
         res.status(404)
-            .send(`no restaurant with id ${id} OR RESTAURANT HAS NO REVIEW`)
+            .send(`Restaurant has not been added`)
     }
     // Can't render page if there is no review
 
@@ -145,7 +145,8 @@ app.get('/new_restaurant', async (req, res) => {
                 title: 'Add a new Restaurant',
             },
             partials: {
-                header: './partials/header'
+                header: './partials/header',
+                footer: "./partials/footer"           
             }
         })
         //Add new restaurant to database
@@ -166,7 +167,7 @@ app.post('/new_restaurant/submit', async function (req, res, next) {
         // console.log(newRes_data);
         var new_ResId = newRes_data.rows[0].id; // restaurant.id from the previous insert ^
         // console.log('new_ResId: ', new_ResId);
-        var new_review = await db.result(`INSERT INTO review VALUES (default, NULL, NULL, NULL, NULL, '${parseInt(new_ResId)}')`)
+        // var new_review = await db.result(`INSERT INTO review VALUES (default, NULL, NULL, NULL, NULL, '${parseInt(new_ResId)}')`)
         // res.send('New Restaurant Successfully Added! \n'); 
         res.redirect(`/restaurant/${new_ResId}`);
     } catch (error) {
