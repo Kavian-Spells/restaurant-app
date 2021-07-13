@@ -9,14 +9,14 @@
 </head>
 <body>
     <!-- Form to enter the: name, addresss, category -->
-    <form action="/new_restaurant" method="POST">
+    <form action="/new_restaurant/submit" method="POST">
         <fieldset>
             <legend>Add a new restaurant:</legend>
             <label for="newName">Name of Restaurant:
-                <input type="text">
+                <input type="text" name="newName" id="newName">
             </label><br><br>
             <label for="newAddress">Restaurant Address:
-                <input type="text">
+                <input type="text" name="newAddress" id="newAddress">
             </label><br><br>
             <label for="newCategory">Type of Restaurant:
                 <!-- Going to be able to select from a dropdown list -->
