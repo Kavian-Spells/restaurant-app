@@ -1,0 +1,38 @@
+body {
+    background-image: url(../images/Food+Photo+Background.jpeg);
+    /* background-image: url(../images/burger.jpg); */
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* height: 100vh; */
+    /* width: 100%; */
+    /* backdrop-filter: blur(3px); */
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    height: 100%;
+}
+
+#form {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+}
+
+#input {
+    width: 125%;
+}
+
+h1 {
+    color: firebrick;
+}
