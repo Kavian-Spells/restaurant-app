@@ -5,30 +5,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/index.css" type="text/css">
+    <style>
+      p {
+        color: white;
+      }
+
+      h4 {
+        color: white;
+      }
+
+      input[type=range] {
+        -webkit-appearance: none;
+        background-color: firebrick;
+        opacity: .85;
+        width: 200px;
+        height:20px;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        background-color:goldenrod;
+        width: 10px;
+        height: 26px;
+      }
+      
+    </style>
     ${header}
 </head>
-<body>
+<body style="padding: 20px;">
     <h1>${oneRestaurant.name}</h1>
     <h4>${oneRestaurant.address}</h4>
     <p><strong>Food Category: </strong>${oneRestaurant.category}</p>
     <br>
     
-    <h4><u>Reviews: </u></h4>
-    ${review.map((review) => 
-      `<strong>Name: </strong> ${review.name}<br>
-      <strong>Title: </strong>${review.title}<br>
-          <strong>Grade: </strong>${review.review}<br>
-          <strong>Stars: </strong>${review.stars}<br> 
-          `).join('<br>')}
-          <!-- Can I make this into actual stars? -->
-    <hr>
-
+    <h4><u style="color: firebrick;">Reviews: </u></h4>
+    <div style="color: white;">
+      ${review.map((review) => 
+        `<strong>Name: </strong> ${review.name}<br>
+        <strong>Title: </strong>${review.title}<br>
+            <strong>Grade: </strong>${review.review}<br>
+            <strong>Stars: </strong>${review.stars}<br> 
+            `).join('<br>')}
+            <!-- Can I make this into actual stars? -->
+      <hr color="goldenrod">
+    </div>
     <!-- Write a Review Feature:
     Post request to server?
     How do i write their info to the database?  -->
     <form action="/restaurant/submit_review" method="POST">
         <fieldset>
-          <legend>Write a Review:</legend>
+          <legend style="color: firebrick;">Write a Review:</legend>
           <input type="hidden" name="restaurant_id" value="${oneRestaurant.id}">
           <p>
             <label for="reviewerName">Name: </label>
@@ -41,8 +67,8 @@
           <!-- We need a range for the stars. Maybe change to actual stars later -->
           <p>
             <label for="rating">Rating: </label>
-            <input type="range" name="rating" id="rating" list="tickmarks" min="1" max="5" step="1"/>
-            <datalist id="tickmarks">
+            <input style="color: white;" type="range" name="rating" id="rating" list="tickmarks" min="1" max="5" step="1"/>
+            <datalist id="tickmarks" >
                 <option value="1" label="1 star"></option>
                 <option value="2" label="2 stars"></option>
                 <option value="3" label="3 stars"></option>
@@ -61,7 +87,7 @@
             </textarea>
           </p>
         </fieldset>
-        <input type="submit" id="submit" value="submit"/>
+        <input type="submit" class="btn btn-warning" id="submit" value="submit"/>
       </form>
 
       <!-- Add a link that goes back to the homepage IN THE FOOTER -->

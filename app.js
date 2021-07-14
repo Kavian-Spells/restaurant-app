@@ -97,20 +97,6 @@ app.get('/restaurant/:id', async (req, res) => {
         res.status(404)
             .send(`Restaurant has not been added`)
     }
-    // Can't render page if there is no review
-
-    // else if (review !== true) {
-    //     res.render('added_res', {
-    //         locals: {
-    //             oneRestaurant: restaurant,
-    //             title: `Restaurant info`, //can't get `${oneRestaurant.name}'s info` to work. Something about how db is mapped
-    //         },
-    //         partials: {
-    //             header: './partials/header',
-    //             footer: "./partials/footer"
-    //         }
-    //     });
-    // } 
 });
 
 // Write a Review feature: -----------
@@ -176,39 +162,7 @@ app.post('/new_restaurant/submit', async function (req, res, next) {
 });
 
 
-// User Login Feature - Middleware Lecture 6/12 ~45min
-// THERE ARE MODULES THAT WILL DO USER LOGINS FOR YOU. ASK DURING CLASS
-
-// app.use(function (request, response, next) {
-//   if (request.session.user) {
-//     next();
-//   } else if (request.path == '/login') {
-//     next();
-//   } else {
-//     response.redirect('/login');
-//   }
-// });
-
-// app.get("/", function (request, response) {
-//   response.send(`Hello ${request.session.user}`);
-// });
-
-// app.get('/login', function (request, response) {
-//   response.sendFile(__dirname + '/login.html');
-// });
-
-// app.post('/login', function (request, response) {
-//   var username = request.body.username;
-//   var password = request.body.password;
-//   console.log(username, password);
-
-//   if (username == 'aaron' && password == 'narf') {
-//     request.session.user = username;
-//     response.redirect('/');
-//   } else {
-//     response.sendFile(__dirname + '/login.html');
-//   }
-// });
+// User Login Feature: ----------------- Put in another file
 
 // launch ======================================================================
 var PORT = process.env.PORT || 8000;
