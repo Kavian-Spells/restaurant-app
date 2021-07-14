@@ -7,12 +7,17 @@
     <link rel="stylesheet" href="/css/index.css" type="text/css">
     ${header}
     <!-- We need a <title> in app.js -->
+    <style>
+        label {
+            color: whitesmoke;
+        }
+    </style>
 </head>
 <body>
     <!-- Form to enter the: name, addresss, category -->
     <form action="/new_restaurant/submit" method="POST">
         <fieldset>
-            <legend>Add a new restaurant:</legend>
+            <legend style="color: firebrick;">Add a new restaurant:</legend>
             <label for="newName">Name of Restaurant:
                 <input type="text" name="newName" id="newName">
             </label><br><br>
@@ -34,7 +39,7 @@
                     <option value="brunch">Brunch</option>
                 </select>
             </label><br><br>
-            <button type="submit">Submit</button>
+            <button type="submit" class="btn btn-warning">Submit</button>
         </fieldset>
     </form>
 <hr>
