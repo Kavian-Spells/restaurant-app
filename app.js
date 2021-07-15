@@ -63,7 +63,7 @@ app.get('/search', async (req, res) => {
     });
 
 // restaurant pages -----------
-app.get('/restaurant/:id', async (req, res) => {
+app.get('/restaurant/:id', async (req, res, next) => {
     // pull restaurant id from database
     var {id} = req.params;
     // console.log("req.params id", id)
@@ -110,14 +110,6 @@ app.post('/restaurant/submit_review', async function (req, res, next) {
         // console.log('new_userId', new_userId);
         var user_review = await db.result(`INSERT INTO review VALUES (default, '${req.body.reviewTitle}', '${req.body.review}', '${parseInt(req.body.rating)}', '${parseInt(new_userId)}', '${parseInt(req.body.restaurant_id)}')`)
         res.redirect('back'); // redirect back to restaurant page and show new review
-        
-        // res.write('Review Successfully recorded! \n');
-        // res.write(`You sent the Name:   "${req.body.reviewerName}"\n`);
-        // res.write(`You sent the Email:  "${req.body.reviewerEmail}"\n`);
-        // res.write(`You sent the Rating: "${req.body.rating}"\n`);
-        // res.write(`You sent the Title:  "${req.body.reviewTitle}"\n`);
-        // res.write(`You sent the Review: "${req.body.review}"`);
-        // res.end()   
     } catch (error) {
         res.send(error)
     }
@@ -135,9 +127,6 @@ app.get('/new_restaurant', async (req, res) => {
                 footer: "./partials/footer"           
             }
         })
-        //Add new restaurant to database
-        // var newRes_data = await db.result(`INSERT INTO restaurant VALUES (default, '${req.body.reviewerName}', '${req.body.reviewerEmail}', NULL) RETURNING id`)
-        // res.redirect('back');
     } catch (error) {
         console.log(error)
     }
@@ -149,7 +138,7 @@ app.post('/new_restaurant/submit', async function (req, res, next) {
         console.log('new restaurant form: ', req.body);
         
         //Write form data (req.body) to database
-        var newRes_data = await db.result(`INSERT INTO restaurant VALUES (default, '${req.body.newName}', '${req.body.newAddress}', '${req.body.newCategory}') RETURNING id`)
+        var newRes_data = await db.result(`INSERT INTO restaurant VALUES (default, '${req.body.newName}', '${req.body.newAddress}', '${req.body.newCategory}', '${req.body.newWebsite}') RETURNING id`)
         // console.log(newRes_data);
         var new_ResId = newRes_data.rows[0].id; // restaurant.id from the previous insert ^
         // console.log('new_ResId: ', new_ResId);

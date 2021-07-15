@@ -10,14 +10,15 @@
     <style>
         label {
             color: whitesmoke;
+            font-weight: bold;
         }
     </style>
 </head>
-<body>
+<body style="padding: 20px;">
     <!-- Form to enter the: name, addresss, category -->
     <form action="/new_restaurant/submit" method="POST">
         <fieldset>
-            <legend style="color: firebrick;">Add a new restaurant:</legend>
+            <legend style="color: firebrick;"><h3>Add a new restaurant:</h3></legend>
             <label for="newName">Name of Restaurant:
                 <input type="text" name="newName" id="newName">
             </label><br><br>
@@ -39,6 +40,10 @@
                     <option value="brunch">Brunch</option>
                 </select>
             </label><br><br>
+            <label for="newWebsite">Website URL: 
+                <input type="text" name="newWebsite" id="newWebsite">
+            </label>
+            <br><br>
             <button type="submit" class="btn btn-warning">Submit</button>
         </fieldset>
     </form>
