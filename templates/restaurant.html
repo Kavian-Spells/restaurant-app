@@ -55,9 +55,7 @@
             <!-- Can I make this into actual stars? -->
       <hr color="goldenrod">
     </div>
-    <!-- Write a Review Feature:
-    Post request to server?
-    How do i write their info to the database?  -->
+    <!-- Write a Review Feature: -->
     <form action="/restaurant/submit_review" method="POST">
         <fieldset>
           <legend style="color: firebrick;">Write a Review:</legend>
@@ -70,7 +68,7 @@
             <label for="reviewerEmail">Email: </label>
             <input type="email" name="reviewerEmail" id="reviewerEmail"/>
           </p>
-          <!-- We need a range for the stars. Maybe change to actual stars later -->
+          
           <p>
             <label for="rating">Rating: </label>
             <input style="color: white;" type="range" name="rating" id="rating" list="tickmarks" min="1" max="5" step="1"/>
