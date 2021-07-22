@@ -22,7 +22,7 @@ var body_parser = require('body-parser'); //body-parser => request.body
 app.use(body_parser.urlencoded());
 
 app.use(express.static('public')); //serve static files (css, js, etc.) outside of node and express
-app.use(express.json()); //??? => Came from youtube
+app.use(express.json()); 
 
 // routes ======================================================================
 // home -----------
@@ -57,7 +57,7 @@ app.get('/search', async (req, res) => {
                 }
             });
         } else {
-            res.status(404) //Returning empty array, no error message showing
+            res.status(404) 
                 .send(`no restaurants returned in your search`)
         }
     });
@@ -142,8 +142,6 @@ app.post('/new_restaurant/submit', async function (req, res, next) {
         // console.log(newRes_data);
         var new_ResId = newRes_data.rows[0].id; // restaurant.id from the previous insert ^
         // console.log('new_ResId: ', new_ResId);
-        // var new_review = await db.result(`INSERT INTO review VALUES (default, NULL, NULL, NULL, NULL, '${parseInt(new_ResId)}')`)
-        // res.send('New Restaurant Successfully Added! \n'); 
         res.redirect(`/restaurant/${new_ResId}`);
     } catch (error) {
         res.send(error)
